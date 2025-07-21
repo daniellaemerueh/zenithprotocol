@@ -1,102 +1,149 @@
 # ZenithProtocol 🌌
 
-> A quantum-inspired decentralized data storage protocol built on Stacks with Bitcoin-backed incentives
+# 🏛️ NexusVault
 
-## Overview
+**Decentralized Resource Distribution Protocol**
 
-QuantumVault revolutionizes decentralized storage by introducing quantum-inspired terminology and mechanics. Store your data across a network of synchronized quantum nodes, earning and paying rewards in STX tokens backed by Bitcoin's security.
+ZenitthProtocol is a sophisticated multi-signature governance system built on Stacks that enables communities to manage and distribute resources through a decentralized, transparent, and secure framework. The protocol implements guardian-based governance with proposal management, emergency controls, and comprehensive distribution tracking.
 
-## Key Features
+## ✨ Features
 
-### 🔮 Quantum Entanglement
-- **Data Entanglement**: Upload your data and "entangle" it with guardian nodes
-- **Quantum Signatures**: Each data piece gets a unique 32-byte quantum signature
-- **Coherence Maintenance**: Data remains coherent and accessible across the network
+### 🔐 Multi-Signature Governance
+- **Guardian System**: Authorized guardians can initiate and endorse proposals
+- **Configurable Endorsements**: Adjustable threshold for proposal approval
+- **Proposal Management**: Structured proposal system with categories and parameters
 
-### ⚡ Node Synchronization
-- **Quantum Nodes**: Storage providers register as quantum nodes with defined capacities
-- **Coherence Scoring**: Nodes maintain reputation through consistent uptime
-- **Dynamic Occupation**: Real-time tracking of quantum space utilization
+### 💰 Resource Distribution
+- **Distribution Chronicles**: Complete tracking of all resource allocations
+- **Configurable Limits**: Adjustable minimum stakes and distribution ceilings
+- **Recipient Validation**: Automated eligibility verification for all recipients
 
-### 💎 Bitcoin-Backed Incentives
-- **Entanglement Fees**: 15 STX per unit of quantum data stored
-- **Reward Harvesting**: Nodes earn proportional to their quantum occupation
-- **Instant Settlements**: Leveraging Stacks' Bitcoin finality
+### 🛡️ Security & Emergency Controls
+- **Protocol Lockdown**: Emergency freeze functionality for critical situations
+- **Access Control**: Role-based permissions for all critical operations
+- **Vault Overseer**: Designated administrator with elevated privileges
 
-## Smart Contract Functions
+### 📊 Transparency & Tracking
+- **Complete Audit Trail**: Every distribution event is permanently recorded
+- **Public Queries**: Read-only functions for transparency and verification
+- **Historical Data**: Comprehensive recipient history and statistics
 
-### For Data Originators
-```clarity
-;; Entangle your data with a quantum node
-(entangle-data signature quantum-size guardian-node)
+## 🚀 Quick Start
 
-;; Retrieve quantum manifest information  
-(get-quantum-manifest signature)
+### Deployment
+Deploy the contract to the Stacks blockchain using your preferred deployment method:
 
-;; Collapse quantum data (delete)
-(collapse-quantum-data signature)
+```bash
+clarinet deploy
 ```
 
-### For Quantum Nodes
+### Basic Usage
+
+#### 1. Appoint Guardians
 ```clarity
-;; Initialize as a quantum node
-(initialize-quantum-node quantum-capacity)
-
-;; Harvest accumulated rewards
-(harvest-quantum-rewards)
-
-;; Desynchronize node (deactivate)
-(desynchronize-node)
+(contract-call? .nexusvault appoint-guardian 'SP1234567890ABCDEF...)
 ```
 
-## Technical Specifications
+#### 2. Initiate a Proposal
+```clarity
+(contract-call? .nexusvault initiate-proposal "resource-allocation" (list 1000 30))
+```
 
-- **Maximum Quantum Size**: 2MB per data entanglement
-- **Entanglement Fee**: 15 STX per unit
-- **Signature Format**: 32-byte buffer for quantum identification
-- **Initial Coherence Score**: 100 points for new nodes
+#### 3. Chronicle Distribution
+```clarity
+(contract-call? .nexusvault chronicle-distribution 'SP1234567890ABCDEF... u500)
+```
 
-## Getting Started
+## 🏗️ Architecture
 
-1. **Deploy Contract**: Deploy the QuantumVault smart contract to Stacks
-2. **Initialize Node**: Call `initialize-quantum-node` with your storage capacity
-3. **Start Entangling**: Begin accepting data from originators
-4. **Harvest Rewards**: Regular reward collection based on quantum occupation
+### Core Components
 
-## Security Model
+- **Vault Overseer**: Primary administrator with system-wide controls
+- **Guardians**: Trusted entities that can propose and execute distributions
+- **Proposals**: Structured governance mechanism for protocol changes
+- **Distribution Chronicles**: Immutable record of all resource movements
 
-QuantumVault leverages Stacks' unique position as a Bitcoin layer to provide:
-- **Bitcoin Finality**: All transactions settle to Bitcoin
-- **Cryptographic Signatures**: Each quantum data piece has verifiable ownership
-- **Node Reputation**: Coherence scoring prevents malicious behavior
-- **Permissionless Network**: Anyone can become a quantum node
+### Data Structures
 
-## Error Codes
+```clarity
+;; Guardian authorization
+(define-map guardians principal bool)
+
+;; Distribution tracking
+(define-map distribution-chronicles 
+  { recipient: principal } 
+  { 
+    cumulative-received: uint,
+    latest-distribution-block: uint,
+    distribution-events: uint
+  })
+
+;; Proposal management
+(define-map active-proposals 
+  { proposal-id: uint } 
+  { proposal-category: (string-ascii 50), proposal-params: (list 10 int), endorsement-list: (list 10 principal) })
+```
+
+## 🔧 Configuration
+
+### System Parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `minimum-stake` | 25 | Minimum required stake for participation |
+| `distribution-ceiling` | 2500 | Maximum single distribution amount |
+| `required-endorsements` | 5 | Number of guardian endorsements needed |
+
+### Administrative Functions
+
+- `designate-vault-overseer`: Transfer oversight to a new principal
+- `adjust-minimum-stake`: Modify stake requirements
+- `modify-distribution-ceiling`: Update distribution limits
+- `adjust-required-endorsements`: Change governance thresholds
+
+## 🛠️ API Reference
+
+### Core Functions
+
+#### Guardian Management
+- `appoint-guardian(new-guardian: principal)` - Add a new guardian
+- `dismiss-guardian(guardian: principal)` - Remove a guardian
+- `is-protocol-guardian(address: principal)` - Check guardian status
+
+#### Proposal System
+- `initiate-proposal(category: string, params: list)` - Create new proposal
+- `get-proposal-details(proposal-id: uint)` - Retrieve proposal information
+- `execute-proposal(proposal-id: uint)` - Execute approved proposal
+
+#### Distribution Management
+- `chronicle-distribution(recipient: principal, amount: uint)` - Record distribution
+- `get-recipient-distribution-chronicle(recipient: principal)` - Get recipient history
+- `validate-distribution-request(amount: uint)` - Validate distribution limits
+
+#### Emergency Controls
+- `engage-lockdown()` - Freeze all protocol operations
+- `disengage-lockdown()` - Resume normal operations
+- `get-protocol-status()` - Check lockdown status
+
+## 🔒 Security Considerations
+
+- All critical functions require proper authorization
+- Emergency lockdown prevents unauthorized access during incidents
+- Recipient validation prevents self-allocation and system abuse
+- Comprehensive logging enables full audit capabilities
+
+## 📈 Error Codes
 
 | Code | Description |
 |------|-------------|
-| u1   | Invalid quantum capacity |
-| u2   | Guardian node not found |
-| u3   | Quantum size exceeds maximum |
-| u4   | Insufficient node capacity |
-| u5   | Node not found for rewards |
-| u6   | Node not synchronized |
-| u7   | Node not found for deactivation |
-| u8   | Cannot deactivate with occupied space |
-| u9   | Invalid quantum signature |
-| u10  | Invalid guardian node |
-| u11  | Quantum data not found |
-| u12  | Unauthorized collapse attempt |
-| u13  | Guardian node status error |
-| u14  | Invalid signature format |
+| u401 | Unauthorized access |
+| u402 | Invalid parameter value |
+| u403 | Resource already exists or invalid amount |
+| u404 | Resource not found |
+| u405 | Amount exceeds limits |
+| u406-408 | System status conflicts |
+| u409-412 | Recipient validation failures |
 
-## Roadmap
+## 🤝 Contributing
 
-- [ ] **Phase 1**: Core entanglement and node functionality
-- [ ] **Phase 2**: Advanced coherence algorithms
-- [ ] **Phase 3**: Cross-chain quantum bridges
-- [ ] **Phase 4**: Quantum data compression protocols
-
-## Contributing
-
-QuantumVault is open source and welcomes contributions. Please ensure all quantum mechanics are properly implemented and tested.
+We welcome contributions to ZenitthProtocol! Please read our contributing guidelines and submit pull requests for any improvements.
